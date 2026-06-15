@@ -1,0 +1,56 @@
+// Menunggu seluruh elemen DOM selesai dimuat
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. PENGATURAN MENU RESPONSIF (MOBILE HAMBURGER)
+    const menuButton = document.querySelector('.menu-btn');
+    const navigation = document.querySelector('.nav-navigation');
+    const menuLines = document.querySelectorAll('.menu-line');
+
+    if (menuButton && navigation) {
+        menuButton.addEventListener('click', () => {
+            // Membuka atau menutup laci navigasi dengan toggle class
+            navigation.classList.toggle('menu-open');
+            
+            // Animasi transisi tombol hamburger menjadi bentuk silang (X)
+            if (navigation.classList.contains('menu-open')) {
+                menuLines[0].style.transform = 'translateY(4px) rotate(45deg)';
+                menuLines[1].style.transform = 'translateY(-4px) rotate(-45deg)';
+            } else {
+                menuLines[0].style.transform = 'none';
+                menuLines[1].style.transform = 'none';
+            }
+        });
+    }
+
+    // 2. OTOMATIS MENUTUP MENU SAAT LINK DIKLIK (MOBILE OPTIMIZATION)
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (navigation && navigation.classList.contains('menu-open')) {
+                navigation.classList.remove('menu-open');
+                // Kembalikan tombol hamburger ke bentuk semula
+                menuLines[0].style.transform = 'none';
+                menuLines[1].style.transform = 'none';
+            }
+        });
+    });
+
+    // 3. EFEK SCROLL PADA NAVBAR (NAVBAR SHRINK EFFECT)
+    const mainHeader = document.querySelector('.main-header');
+    const navContainer = document.querySelector('.nav-container');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            // Ketika layar digulir ke bawah lebih dari 50px
+            if (mainHeader) mainHeader.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+            if (mainHeader) mainHeader.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.04)';
+            if (navContainer) navContainer.style.height = '65px'; // Navbar mengecil secara halus
+        } else {
+            // Ketika posisi scroll kembali ke paling atas
+            if (mainHeader) mainHeader.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
+            if (mainHeader) mainHeader.style.boxShadow = 'none';
+            if (navContainer) navContainer.style.height = '80px'; // Ukuran navbar kembali normal
+        }
+    });
+
+});
